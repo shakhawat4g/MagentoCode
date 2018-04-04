@@ -1,0 +1,881 @@
+----------------- Show Product After Login ----------------------------
+
+<?php== Mage::getSingleton('customer/session')->setBeforeAuthUrl($this->getRequest()->getRequestUri());  //save requested URL for later redirection
+if(!Mage::getSingleton('customer/session')->isLoggedIn()) {  // if not logged in
+    header("Status: 301");
+    header('Location: '.$this->getUrl('customer/account/login')) ;  // send to the login page
+    exit; 
+} ?>
+
+----------------- Show Product After Login ----------------------------
+
+
+
+
+----------------- Speed Up ----------------------------
+## enable resulting html compression
+ php_flag zlib.output_compression on
+
+
+############################################
+
+## compress text, html, javascript, css, xml:
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+# Or, compress certain file types by extension:
+<files *.html>
+SetOutputFilter DEFLATE
+</files>
+
+###########################################
+
+
+
+
+<IfModule mod_expires.c>
+# Enable expirations
+ExpiresActive On
+# Default directive
+ExpiresDefault "access plus 1 month"
+# My favicon
+ExpiresByType image/x-icon "access plus 1 year?
+# Images
+ExpiresByType image/gif "access plus 1 month"
+ExpiresByType image/png "access plus 1 month"
+ExpiresByType image/jpg "access plus 1 month"
+ExpiresByType image/jpeg "access plus 1 month"
+# CSS
+ExpiresByType text/css "access 1 month?
+# Javascript
+ExpiresByType application/javascript "access plus 1 year"
+</IfModule>
+----------------- Speed Up ----------------------------
+
+
+----------------- Related Product Block ----------------------------
+
+{{block type="catalog/product_list_related" name="catalog.product.related" before="-" template="catalog/product/list/related.phtml"}}
+
+----------------- Related Product Block ----------------------------
+
+----------------- Product Custom TAB ----------------------------
+<action method="addTab" translate="title" module="catalog"><alias>product_cms_block1</alias><title helper="ultimo/template_catalog_product_view/getCmsBlockTitle"><id>block_product_tab1</id></title><block>core/template</block><template>catalog/product/view/cms_block1.phtml</template></action>
+----------------- Product Custom TAB ----------------------------
+
+----------------- Only Category ----------------------------
+<?php if($this->getCategoryPage()) { ?><h1 class="cat_title"><?php echo $catName = Mage::getModel('catalog/layer')->getCurrentCategory()->getName(); ?></h1>
+<div class="clear"></div>
+<?php } ?>
+
+
+<?php if($this->getCategoryPage()) { ?><?php } ?>
+
+if($this->getProductPage()) {
+  //this is a product page, do some stuff
+}
+elseif($this->getCategoryPage()) {
+  //this is a category page, do some stuff
+}
+----------------- Only Category ----------------------------
+
+
+<!--custom code-->
+<?php $_price = $this->helper('tax')->getPrice($_product, $_product->getMsrp()) ?>
+<?php if ($_product->getMsrp()): ?>
+    <?php $_msrpPrice = $this->helper('core')->currency($_product->getMsrp(),true,true) ?>
+    <p class="special-price">
+    <span class="price-label"><?php echo $this->__('Manufacturer\'s Suggested Retail Price'); ?></span>
+    <span class="old-price" id="product-price-<?php echo $_product->getId() ?> <?php echo $this->getIdSuffix() ?>"> <span class="price">RRP </span> <?php echo $_msrpPrice ?></span>
+    </p>
+<?php endif; ?>
+<!--custom code-->
+
+----------------- Show Only Homepage ----------------------------
+<?php 
+  $action = Mage::app()->getFrontController()->getAction()->getFullActionName();
+  if ($action == 'cms_index_index'):
+?>
+<?php endif; ?>
+----------------- Show Only Homepage ----------------------------
+
+----------------- All Product Delete SQL ----------------------------
+
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE `catalog_product_bundle_option`;
+TRUNCATE TABLE `catalog_product_bundle_option_value`;
+TRUNCATE TABLE `catalog_product_bundle_selection`;
+TRUNCATE TABLE `catalog_product_entity_datetime`;
+TRUNCATE TABLE `catalog_product_entity_decimal`;
+TRUNCATE TABLE `catalog_product_entity_gallery`;
+TRUNCATE TABLE `catalog_product_entity_int`;
+TRUNCATE TABLE `catalog_product_entity_media_gallery`;
+TRUNCATE TABLE `catalog_product_entity_media_gallery_value`;
+TRUNCATE TABLE `catalog_product_entity_text`;
+TRUNCATE TABLE `catalog_product_entity_tier_price`;
+TRUNCATE TABLE `catalog_product_entity_varchar`;
+TRUNCATE TABLE `catalog_product_link`;
+TRUNCATE TABLE `catalog_product_link_attribute`;
+TRUNCATE TABLE `catalog_product_link_attribute_decimal`;
+TRUNCATE TABLE `catalog_product_link_attribute_int`;
+TRUNCATE TABLE `catalog_product_link_attribute_varchar`;
+TRUNCATE TABLE `catalog_product_link_type`;
+TRUNCATE TABLE `catalog_product_option`;
+TRUNCATE TABLE `catalog_product_option_price`;
+TRUNCATE TABLE `catalog_product_option_title`;
+TRUNCATE TABLE `catalog_product_option_type_price`;
+TRUNCATE TABLE `catalog_product_option_type_title`;
+TRUNCATE TABLE `catalog_product_option_type_value`;
+TRUNCATE TABLE `catalog_product_super_attribute_label`;
+TRUNCATE TABLE `catalog_product_super_attribute_pricing`;
+TRUNCATE TABLE `catalog_product_super_attribute`;
+TRUNCATE TABLE `catalog_product_super_link`;
+TRUNCATE TABLE `catalog_product_enabled_index`;
+TRUNCATE TABLE `catalog_product_website`;
+TRUNCATE TABLE `catalog_category_product_index`;
+TRUNCATE TABLE `catalog_category_product`;
+TRUNCATE TABLE `cataloginventory_stock_item`;
+TRUNCATE TABLE `cataloginventory_stock_status`;
+TRUNCATE TABLE `cataloginventory_stock`;
+INSERT  INTO `catalog_product_link_type`(`link_type_id`,`code`) VALUES (1,'relation'),(2,'bundle'),(3,'super'),(4,'up_sell'),(5,'cross_sell');
+INSERT  INTO `catalog_product_link_attribute`(`product_link_attribute_id`,`link_type_id`,`product_link_attribute_code`,`data_type`) VALUES (1,2,'qty','decimal'),(2,1,'position','int'),(3,4,'position','int'),(4,5,'position','int'),(6,1,'qty','decimal'),(7,3,'position','int'),(8,3,'qty','decimal');
+INSERT  INTO `cataloginventory_stock`(`stock_id`,`stock_name`) VALUES (1,'Default');
+TRUNCATE TABLE `catalog_product_entity`;
+SET FOREIGN_KEY_CHECKS = 1;
+----------------- All Product Delete SQL ----------------------------
+
+
+----------------- Direcet Templete call in PHTML ----------------------------
+<?php echo $this->getLayout()->createBlock('reports/product_viewed')->setTemplate('reports/product_viewed.phtml')->toHtml(); ?>
+----------------- Direcet Templete call in PHTML ----------------------------
+
+----------------- Stock quantity to display ----------------------------
+<?php if ($_product->isAvailable()): ?>
+    <p class="availability in-stock"><?php echo $this->__('Qty Available:') ?> <span><!--<?php echo $this->__('In stock') ?>--><?= (int) Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty()?></span></p>
+<?php else: ?>
+    <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+<?php endif; ?>
+----------------- Stock quantity to display ----------------------------
+
+----------------- Magento Current category Name ----------------------------
+<?php echo $catName = Mage::getModel('catalog/layer')->getCurrentCategory()->getName(); ?>
+
+<?php echo $this->getLayout()->getBlock('head')->getTitle(); ?> // Show Title & Parent Category
+----------------- Magento Current category Name ----------------------------
+
+----------------- Magento category List Tempalte ----------------------------
+<reference name="product_list">
+    <action method="setTemplate"><template>catalog/product/list_product.phtml</template></action>
+</reference>
+----------------- Magento category List Tempalte ----------------------------
+
+----------------- Magento Speed Up ----------------------------
+<IfModule mod_expires.c>
+
+############################################
+## Add default Expires header
+## http://developer.yahoo.com/performance/rules.html#expires
+
+ExpiresActive On
+ExpiresByType image/jpg "access 1 year"
+ExpiresByType image/jpeg "access 1 year"
+ExpiresByType image/gif "access 1 year"
+ExpiresByType image/png "access 1 year"
+ExpiresByType text/css "access 1 month"
+ExpiresByType text/html "access 1 month"
+ExpiresByType application/pdf "access 1 month"
+ExpiresByType text/x-javascript "access 1 month"
+ExpiresByType application/x-shockwave-flash "access 1 month"
+ExpiresByType image/x-icon "access 1 year"
+ExpiresDefault "access 1 month"
+
+#    ExpiresDefault "access plus 1 year"
+
+</IfModule>
+----------------- Magento Speed Up ----------------------------
+
+----------------- Search Engin Optimization ----------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteRule ^index\.php$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php [L]
+</IfModule>
+----------------- Search Engin Optimization ----------------------------
+
+
+{{block type="faq/frontend_list" name="faq_list" categories="1" template="inic/faq/list.phtml"}}
+
+{{widget type="cms/widget_block" name="contactForm" template="/form.phtml"}}
+{{widget type="catalog/product_widget_new" category_id="9" products_count="100" template="catalog/product/featured_products_slider.phtml"}}
+
+{{block type="testimonials/widget_list" show_block_design="1" items_number="2" view_time="10000" anim_duration="1000"}}
+
+<?php if($testimonial->getImage()){?>
+                    <div class="testimonial-image" style="width: <?php echo ($_width + 10) ?>px">
+                        <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)."testimonials/pictures/".$testimonial->getImage();?>">
+                        </div>
+                    <?php } ?>
+                    
+{{block type="blog/last" blocks_count="4" categories="2"}}
+
+{{block type="blog/cat" categories="4" template="blog/cat.phtml"}}
+
+{{block type="blog/cat" categories="1" template="aw_blog/cat.phtml"}}
+
+Go to app/code/community/AW/Blog/Block/Cat.php and change
+public function getCategory()
+{
+    $cats = Mage::getSingleton('blog/cat');
+    return $cats;
+}
+
+to
+
+public function getCategory()
+  {
+  $cats = Mage::getSingleton('blog/cat');
+ $cats = Mage::getSingleton('blog/cat');
+      $_id = ($this->getData('categories')) ? $this->getData('categories') : false;
+      if (!empty($_id)) {
+        $cats->load($_id);
+      }
+      return $cats;
+}
+
+----------------- Customer Register Problem ----------------------------
+
+<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+
+----------------- Customer Register Problem ----------------------------
+
+----------------- Email Problem ----------------------------
+app/code/core/Mage/Core/Model/Email/Template.php
+
+//if ($this->hasQueue() && $this->getQueue() instanceof Mage_Core_Model_Email_Queue) {
+			
+if (!($this->hasQueue() && $this->getQueue() instanceof Mage_Core_Model_Email_Queue)) {
+
+if (false) {
+
+----------------- Email Problem ----------------------------
+
+----------------- Store Phone Number ----------------------------
+<?php echo $storePhone = Mage::getStoreConfig('general/store_information/phone'); ?>
+----------------- Store Phone Number ----------------------------
+
+----------------- Show Attribute ----------------------------
+
+<?php if ($_product->getData('pack')): ?>
+<div class="pack"><?php echo $_product->getResource()->getAttribute('pack')->getFrontend()->getValue($_product); ?></div>
+<?php endif; ?>
+
+<?php if ($_product->getData('pack')): ?>
+<div class="pack"><?php echo $_product->getResource()->getAttributeText('pack')->getFrontend()->getValue($_product); ?></div>
+<?php endif; ?>
+
+<?php echo $_product->getAttributeText('manufacturer') ?>
+
+----------------- Show Attribute ----------------------------
+
+----------------- show Category subcategory ----------------------------
+
+
+--------------- 1st Label ----------------
+
+ <?php
+    $children = Mage::getModel('catalog/category')->getCategories(4);
+	echo '<ul>';
+    foreach ($children as $category):
+        $category = Mage::getModel('catalog/category')->load($category->getId());
+        echo '<li><a href="' . $category->getUrl() . '">' . $category->getName() . '</a></li>';
+    endforeach;
+	echo '</ul>';
+?>  
+
+--------------- 1st Label ----------------
+
+
+
+<?php $_helper = Mage::helper('catalog/category') ?>
+<?php $_categories = $_helper->getStoreCategories() ?>
+<?php $currentCategory = Mage::registry('current_category') ?>
+<?php if (count($_categories) > 0): ?>
+    <ul id="left-nav">
+        <?php foreach($_categories as $_category): ?>
+            <li>
+                <a href="<?php echo $_helper->getCategoryUrl($_category) ?>">
+                    <?php echo $_category->getName() ?>
+                </a>
+                <?php $_category = Mage::getModel('catalog/category')->load($_category->getId()) ?>
+                <?php $_subcategories = $_category->getChildrenCategories() ?>
+                <?php if (count($_subcategories) > 0): ?>
+                    <ul>
+                        <?php foreach($_subcategories as $_subcategory): ?>
+                            <li>
+                                <a href="<?php echo $_helper->getCategoryUrl($_subcategory) ?>">
+                                    <?php echo $_subcategory->getName() ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?> 
+----------------- show Category subcategory ----------------------------
+
+----------------- show Category is Specific subcategory ----------------------------
+
+<?php $_helper = Mage::helper('catalog/category') ?>
+<?php $_categories = $_helper->getStoreCategories(3) ?>
+<?php if (count($_categories) > 0): ?>
+	<?php foreach($_categories as $_category): ?>
+	<?php $_category = Mage::getModel('catalog/category')->load($_category->getId()) ?>
+    <?php $_subcategories = $_category->getChildrenCategories() ?>
+    <?php if (count($_subcategories) > 0): ?>
+        <ul>
+            <?php foreach($_subcategories as $_subcategory): ?>
+                <li class="shop_<?php echo $_subcategory->getId() ?>">
+                    <a href="<?php echo $_helper->getCategoryUrl($_subcategory) ?>">
+                        <?php echo $_subcategory->getName() ?>
+                    </a><!--<i class="fa fa-caret-right"></i>-->
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+----------------- show Category is Specific subcategory ----------------------------
+
+-------------------- Contact Form Action URL --------------
+<?php echo $this->getURL('contacts/index/post'); ?>
+
+<?php echo $this->getURL('newsletter/subscriber/new'); ?>
+
+{{block type="catalog/product_list" product_count="12" column_count="4" category_id="461" template="filterproducts/list.phtml"}}
+{{block type="shoppersettings/product_list" category_id="11" num_products="3" template="catalog/product/featured_products.phtml"}}
+{{block type="catalog/product_new" name="home.catalog.product.new" products_count="3" alias="product_homepage" template="catalog/product/new.phtml"}}
+{{block type="catalog/product_list" column_count="4" category_id="8" template="catalog/product/list.phtml"}}
+{{block type="core/template" template="catalog/product/testimonials_slider.phtml"}}
+
+{{block type="catalog/navigation" template="catalog/navigation/sub_navigation.phtml"}}
+
+
+{{block type="catalog/product" name="home.new" alias="product" template="catalog/product/special.phtml"}}
+
+<?php echo strip_tags(substr($_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description'),0,500)) .'...' ;?>
+<?php echo substr($_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description'),0,200); ?>
+<?php echo substr($_helper->productAttribute($_product, nl2br($_product->getName()), 'name'),0,20); ?>
+<?php echo strip_tags(substr($_helper->productAttribute($_product, nl2br($_product->getName()), 'name'),0,20)); ?>
+
+<?php $maxLength = 15; $productName = $_helper->productAttribute($_product, $_product->getName(), 'name'); echo substr($productName, 0, $maxLength).'...'; ?>
+
+
+-------------------- Product Tab in Static Block -------------- local.xml
+
+<action method="addTab" translate="title" module="catalog"><alias>questions</alias><title>Questions &amp; Answers</title><block>catalog/product_view</block><template>catalog/product/view/questions.phtml</template></action>
+
+-------------------- Product Tab in Static Block -------------- local.xml
+
+-------------------- Add Admin Account --------------
+LOCK TABLES `admin_role` WRITE , `admin_user` WRITE;
+ 
+SET @SALT = "rp";
+SET @PASS = CONCAT(MD5(CONCAT( @SALT , "password") ), CONCAT(":", @SALT ));
+SELECT @EXTRA := MAX(extra) FROM admin_user WHERE extra IS NOT NULL;
+ 
+INSERT INTO `admin_user` (firstname,lastname,email,username,password,created,lognum,reload_acl_flag,is_active,extra,rp_token_created_at) 
+VALUES ('Firstname','Lastname','email@example.com','myuser',@PASS,NOW(),0,0,1,@EXTRA,NOW());
+ 
+INSERT INTO `admin_role` (parent_id,tree_level,sort_order,role_type,user_id,role_name) 
+VALUES (1,2,0,'U',(SELECT user_id FROM admin_user WHERE username = 'myuser'),'Firstname');
+ 
+UNLOCK TABLES;
+-------------------- Add Admin Account --------------
+
+
+
+-------------------- Attribute Product Tab--------------local.xml
+ <action method="addTab" translate="title" module="catalog"><alias>ingredients</alias><title>Ingredients</title><block>catalog/product_view_ingredients</block><template>catalog/product/view/ingredients.phtml</template></action>
+ 
+ 
+ Then , I would create a phtml under /app/design/frontend/default/modern/template/catalog/product/view/ingredients/phtml                
+<?php echo nl2br($this->getProduct()->getIngredients()) ?>
+
+
+Now, most imporntantly, you have to create a block under /app/code/core/Mage/Catalog/Block/Product/View/Ingredients.php
+
+class Mage_Catalog_Block_Product_View_Ingredients extends Mage_Core_Block_Template
+{
+    protected $_product = null;
+
+    function getProduct()
+    {
+        if (!$this->_product) {
+            $this->_product = Mage::registry('product');
+        }
+        return $this->_product;
+    }
+}
+
+-------------------- Attribute Product Tab--------------
+
+
+
+-------------------- iFrame auto Height--------------
+<script type='text/javascript'>
+
+function setIframeHeight( iframeId ) /** IMPORTANT: All framed documents *must* have a DOCTYPE applied **/
+{
+ var ifDoc, ifRef = document.getElementById( iframeId );
+
+ try
+ {   
+  ifDoc = ifRef.contentWindow.document.documentElement;  
+ }
+ catch( e )
+ { 
+  try
+  { 
+   ifDoc = ifRef.contentDocument.documentElement;  
+  }
+  catch(ee)
+  {   
+  }  
+ }
+ 
+ if( ifDoc )
+ {
+  ifRef.height = 1;  
+  ifRef.height = ifDoc.scrollHeight;
+  
+  /* For width resize, enable below.  */
+  
+  // ifRef.width = 1;
+  // ifRef.width = ifDoc.scrollWidth; 
+ }
+}
+
+</script>
+
+
+<iframe id="myIframe" onload = "setIframeHeight( this.id )" src="http://www.comfortzoneskincare.co.uk/blog/" frameborder="0" scrolling="no" width="1170" height="240"></iframe>
+
+----------------- Footer Newsletter ----------------------------
+
+<!-- Mage_Newsletter -->
+    <reference name="footer">
+         <block type="newsletter/subscribe" name="footer.newsletter" template="newsletter/subscribe.phtml"/>
+     </reference>
+----------------- Footer Newsletter ----------------------------
+
+----------------- Dynamic Logout Button ----------------------------
+
+<?php if (! Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+<a href="<?php echo Mage::helper('customer')->getLoginUrl(); ?>"><?php echo $this->__('Login') ?></a>
+<?php else: ?>
+<a href="<?php echo Mage::helper('customer')->getLogoutUrl(); ?>"><?php echo $this->__('Logout') ?></a>
+<?php endif; ?>
+----------------- Dynamic Logout Button ----------------------------
+
+
+----------------- show Category and parent subcategory ----------------------------
+<?php $children = explode( ",", $this->getCurrentCategory()->getChildren() ); ?>
+<div class="category-products">
+    <ul class="products-list">
+        <?php foreach( $children as $child ): ?>
+            <?php $_child = Mage::getModel( 'catalog/category' )->load( $child ); ?>
+            <li class="item"><a href="<?php echo $_child->getUrl() ?>"> <?php echo     $_child->getName() ?> </a></li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+
+----------------- show Category and parent subcategory ----------------------------
+
+----------------- show Currency ----------------------------
+<?php if($this->getCurrencyCount()>1): ?>
+<div class="box language-switcher" style="margin-left:15px">
+<label for="select-language">Your Currency: </label>
+<select name="currency" onchange="changeCurrency(this)">
+<?php foreach ($this->getCurrencies() as $_code => $_name): ?>
+<option value="<?php echo $_code ?>"<?php if($_code==$this->getCurrentCurrencyCode()): ?> selected="selected"<?php endif; ?>>
+<?php echo $_name ?> - <?php echo $_code ?>
+</option>
+<?php endforeach; ?>
+</select>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+function changeCurrency(sObject){
+if(sObject.value){
+setLocation('<?php echo $this->helper('directory/url')->getSwitchCurrencyUrl() ?>currency/'+sObject.value);
+}
+}
+//]]>
+</script>
+<?php endif; ?>
+
+
+
+
+
+
+<?php if($this->getCurrencyCount()>1): ?>
+    <div class="currency">
+    <?php foreach ($this->getCurrencies() as $_code => $_name): ?>       
+        <a href="<?php echo $this->getSwitchCurrencyUrl($_code) ?>" onclick="setLocation(this.value);">
+           <?php echo $_code; ?> <img src="<?php echo $this->getSkinUrl().'images/flags/'.$_code.'.jpg' ?>">
+        </a>     
+    <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+----------------- show Currency ----------------------------
+
+
+----------------- show place order button----------------------------
+
+If you realized the "Place Order" button is missing in your updated theme (1.5.0.1) , simply go to: /app/design/frontend/default/default/layout/checkout.xml
+
+Search for this line:
+<block type="core/text_list" name="checkout.onepage.review.info.items.before" as="items_before"/>
+Add this line just below the previous line:
+<block type="core/template" name="checkout.onepage.review.button" as="button" template="checkout/onepage/review/button.phtml"/>
+
+----------------- show place order button----------------------------
+
+
+----------------- Home Page Template ----------------------------
+
+path app\code\core\Mage\Page\etc
+
+<homepage module="page" translate="label">
+                    <label>Home Page</label>
+                    <template>page/homepage.phtml</template>
+                    <layout_handle>homepage</layout_handle>
+                </homepage>
+                
+----------------- Home Page Template ----------------------------
+
+
+  ----------------- Show static Block ----------------------------
+  
+  
+ <?php $cms_block = Mage::getModel('cms/block') ->setStoreId( Mage::app()->getStore()->getId() ) ->load('latest_products'); if($cms_block->getIsActive()) { echo '<div class="latest-products">' .'<h1>' .$cms_block->getTitle(). '</h1>' .$this->getLayout()->createBlock('cms/block')->setBlockId('latest_products')->toHtml().'<div class="clear"></div></div>'; } ?>
+  
+  
+<?php $al_block = $this->getLayout()->createBlock('cms/block')->setBlockId('top-contact')->toHtml();
+	        if (!empty($al_block)) { echo '<div class="top-contact">'.$al_block.'</div>'; } ?>
+  
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('banner')->toHtml() ?>
+
+----------------- Show static Block ----------------------------
+
+
+  ----------------- Dont Show Some Catagory & Subcatagory ---------------------------- 
+
+    <?php $_menu = $this->renderCategoriesMenuHtml(0,'level-top') ?>
+		<?php if($_menu): ?>
+            <ul>
+                <?php foreach ($this->getStoreCategories() as $_category): ?>
+                    <?php if(stristr('7,8,9', $_category->getId()) == TRUE)   : ?> 
+                        <li><?php echo $this->drawItem($_category) ?></li>
+                    <?php endif ?>
+                <?php endforeach ?>
+                 </ul>
+        </div>
+        <?php endif ?>
+
+
+
+
+<?php $_menu = $this->renderCategoriesMenuHtml(0,'level-top') ?>
+<?php if($_menu): ?>
+    <ul>
+        <?php foreach ($this->getStoreCategories() as $_category): ?>
+            <?php if(stristr('3,4,5,6', $_category->getId()) === FALSE)   : ?> 
+                <li><?php echo $this->drawItem($_category) ?></li>
+            <?php endif ?>
+        <?php endforeach ?>
+         </ul>
+</div>
+<?php endif ?>
+
+
+  ----------------- Dont Show Some Catagory & Subcatagory ---------------------------- 
+
+  ----------------- Tamplate Change Product Details Page ---------------------------- 
+  
+<catalog_product_view translate="label">
+    <label>Catalog Product View (Any)</label>
+    <!-- Mage_Catalog -->
+    <reference name="root">
+        <action method="setTemplate"><template>page/1column.phtml</template>
+        </action>
+    </reference>
+    
+   ----------------- Tamplate Change Category Page ----------------------------    
+        <reference name="root"> 
+        <action method="setTemplate"><template>page/1column.phtml</template></action> 
+        </reference>
+
+    
+  ----------------- Tamplate Change Product Details Page ---------------------------- 
+
+
+
+
+    Media Url     : <?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);?>
+    Tamplate Url  : <?php echo $this->getSkinUrl('');?>
+    Base url      : <?php echo $this->getURL(''); ?>
+    JS Url        : <?php echo $this->getJSUrl('pop/colorbox.css'); ?>
+    
+    
+    Base url Without index.php      : <?php echo Mage::getStoreConfig('web/unsecure/base_url');?>
+    
+  -----------------Card Details Header ----------------------------  
+   <?php
+  $count = $this->helper('checkout/cart')->getSummaryCount();  //get total items in cart
+  $total = $this->helper('checkout/cart')->getQuote()->getGrandTotal(); //get total price
+  if($count==0)
+  {
+    echo $this->__('Items: %s',$count);
+  }
+  if($count==1)
+  {
+    echo $this->__(' Item: %s',$count);
+  }
+  if($count>1)
+  {
+    echo $this->__(' Items: %s',$count);
+  }
+  echo $this->__(' Total: %s', $this->helper('core')->formatPrice($total, false));
+?>
+ -----------------Card Details Header ---------------------------- 
+
+
+ -----------------Contact Form ----------------------------
+
+{{block type="core/template" name="contactForm" template="contacts/form.phtml" action="/contact-us/index/post"}}
+{{block type='core/template' name='contactForm' template='contacts/form.phtml'}}
+ 
+ -----------------Contact Form ----------------------------
+ 
+ ----------------------------Magento Newsletter----------------------------
+ {{block type='core/template' name='newsletter' template='newsletter/subscribe.phtml'}}
+ 
+ {{block type="newsletter/subscribe" name="newsletter" template="newsletter/subscribe.phtml"}}
+ 
+ ----------------------------Magento Newsletter----------------------------
+
+ ----------------------------Magento show catagory product----------------------------
+ 
+{{block type="catalog/product_list" category_id="6" template="catalog/product/most_populer_recipe.phtml"}}
+
+ ----------------------------Magento show catagory product----------------------------
+ 
+ 
+{{block type="catalog/product_list" template="catalog/product/list.phtml" category_id="14,17,20,23" column_count="8" }}
+
+----------------------------Magento new product block----------------------------
+
+{{block type="catalog/product_new" name="home.catalog.product.new" products_count="6" alias="product_homepage" template="catalog/product/new.phtml"}}
+
+----------------------------Magento new product block----------------------------
+ 
+    
+Attribute
+-----------------------------------------------------  
+<?php if ($_product->getData('length')): ?>
+<?php echo $_product->getResource()->getAttribute('length')->getFrontend()->getValue($_product); ?>
+<?php endif; ?>
+----------------------------------------------------------
+
+{{block type="catalog/product_new" name="home.catalog.product.new" products_count="8" alias="product_homepage" template="catalog/product/new.phtml"}}
+
+
+-----------------Add Catagory & Sub Catagory ----------------------------
+
+<?php $_helper = Mage::helper('catalog/category') ?>
+<?php $_categories = $_helper->getStoreCategories() ?>
+<?php $currentCategory = Mage::registry('current_category') ?>
+<?php if (count($_categories) > 0): ?>
+    <ul>
+        <?php foreach($_categories as $_category): ?>
+            <li>
+                <a href="<?php echo $_helper->getCategoryUrl($_category) ?>">
+                    <?php echo $_category->getName() ?>
+                </a>
+                <?php $_category = Mage::getModel('catalog/category')->load($_category->getId()) ?>
+                <?php $_subcategories = $_category->getChildrenCategories() ?>
+                <?php if (count($_subcategories) > 0): ?>
+                    <ul>
+                        <?php foreach($_subcategories as $_subcategory): ?>
+                            <li>
+                                <a href="<?php echo $_helper->getCategoryUrl($_subcategory) ?>">
+                                    <?php echo $_subcategory->getName() ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>  
+
+-----------------Add Catagory & Sub Catagory ----------------------------
+
+
+
+<img src="{{media url="images/banner.jpg"}}" alt="" border="0">
+
+
+
+
+
+-----------------custom page link-----------------
+
+<?php echo $this->getChildHtml('cms_footer_links') ?>
+<li><a href="{{store direct_url="about-magento-demo-store"}}">About Us</a></li>
+
+
+To get SKIN URL -> {{skin url='images/image.jpg'}}
+To get Media URL -> {{media url='/image.jpg'}}
+To get Base URL -> {{base url='store/page.html'}}
+To get Store URL -> {{store url='page.html'}}
+
+-----------------custom page link-----------------
+
+
+
+-----------------Slide Show-----------------
+
+<script type="text/javascript">
+        start_slideshow(1, 3, 3000);
+
+        function start_slideshow(start_frame, end_frame, delay) {
+            id = setTimeout(switch_slides(start_frame,start_frame,end_frame, delay), delay);
+        }
+
+        function switch_slides(frame, start_frame, end_frame, delay) {
+            return (function() {
+                Effect.Fade('slide' + frame, { duration: 1.0 });
+                if (frame == end_frame) { frame = start_frame; } else { frame = frame + 1; }
+                Effect.Appear('slide' + frame, { duration: 1.0 });
+                if (delay == 1000) { delay = 3000; }
+                id = setTimeout(switch_slides(frame, start_frame, end_frame, delay), delay);
+            })
+        }
+
+        function stop_slideshow() {
+            clearTimeout(id);
+        }
+</script>
+<div id="introhomepage" style="height: 230px; position: relative;" onmouseover="stop_slideshow()" onmouseout="start_slideshow(1, 3, 1000)">
+<div id="slide1" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: block; z-index: 3; opacity: 1;"><a href='#'><img src="{{media url="images/banner1.jpg"}}" alt="" border="0" /></a></div>
+<div id="slide2" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 2; opacity: 0;"><a href='#'><img src="{{media url="images/banner2.jpg"}}" alt="" border="0" /></a></div>
+<div id="slide3" class="slide"style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 1; opacity: 0;"><a href='#'><img src="{{media url="images/banner3.jpg"}}" alt="" border="0" /></a></div>
+</div>
+
+-----------------Slide Show-----------------
+
+
+-----------------Slide Show Meny Images-----------------
+
+  <script type="text/javascript">// <![CDATA[ 
+	start_slideshow(1, 12, 12000);
+	
+	function start_slideshow(start_frame, end_frame, delay) { 
+	id = setTimeout(switch_slides(start_frame,start_frame,end_frame, delay), delay); 
+	}
+
+	function switch_slides(frame, start_frame, end_frame, delay) { 
+	return (function() { 
+	Effect.Fade('slide' + frame, { duration: 2.0 }); 
+	if (frame == end_frame) { frame = start_frame; } else { frame = frame + 1; } 
+	Effect.Appear('slide' + frame, { duration: 2.0 }); 
+	if (delay == 1000) { delay = 3000; } 
+	id = setTimeout(switch_slides(frame, start_frame, end_frame, delay), delay); 
+	}) 
+	}
+
+	function stop_slideshow() { 
+	clearTimeout(id); 
+	} 
+// ]]></script> 
+<div id="introhomepage" style="height: 600px; width: 249px; position: relative;" onmouseover="stop_slideshow()" onmouseout="start_slideshow(1, 12, 1000)">
+  <div id="slide1" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: block; z-index: 12; opacity: 1;">
+  <img border='0' src='{{media url='wysiwyg/banner1.jpg'}}' /></div>
+<div id="slide2" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 11; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner2.jpg'}}' /></div>
+<div id="slide3" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 10; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner3.jpg'}}' /></div>
+<div id="slide4" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 9; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner4.jpg'}}' /></div>
+<div id="slide5" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 8; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner5.jpg'}}' /></div>
+<div id="slide6" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 7; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner5.jpg'}}' /></div>
+<div id="slide7" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 6; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner5.jpg'}}' /></div>
+<div id="slide8" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 5; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner5.jpg'}}' /></div>
+<div id="slide9" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 4; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner5.jpg'}}' /></div>
+<div id="slide10" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 3; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner5.jpg'}}' /></div>
+<div id="slide11" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 2; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner5.jpg'}}' /></div>
+<div id="slide12" class="slide" style="position: absolute; top: 0pt; left: 0pt; display: none; z-index: 1; opacity: 0;">
+<img border='0' src='{{media url='wysiwyg/banner5.jpg'}}' /></div>
+</div>
+
+
+-----------------Slide Show Meny Images-----------------
+
+
+
+General Contact
+
+/* Sender Name */
+Mage::getStoreConfig('trans_email/ident_general/name'); 
+/* Sender Email */
+Mage::getStoreConfig('trans_email/ident_general/email');
+
+Sales Representative
+
+/* Sender Name */
+Mage::getStoreConfig('trans_email/ident_sales/name'); 
+/* Sender Email */
+Mage::getStoreConfig('trans_email/ident_sales/email');
+Customer Support
+
+/* Sender Name */
+Mage::getStoreConfig('trans_email/ident_support/name'); 
+/* Sender Email */
+Mage::getStoreConfig('trans_email/ident_support/email');
+Custom Email 1
+
+/* Sender Name */
+Mage::getStoreConfig('trans_email/ident_custom1/name'); 
+/* Sender Email */
+Mage::getStoreConfig('trans_email/ident_custom1/email');
+Custom Email 2
+
+ 
+/* Sender Name */
+Mage::getStoreConfig('trans_email/ident_custom2/name'); 
+/* Sender Email */
+Mage::getStoreConfig('trans_email/ident_custom2/email');
